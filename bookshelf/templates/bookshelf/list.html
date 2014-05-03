@@ -1,0 +1,4 @@
+{% for item in item_dict %}
+    <h4>{{ item.title }}</h3>
+    <a href="http://www.amazon.co.jp/exec/obidos/ASIN/{{ item.asin }}/{{ meta.aso_tag }}/" target="_blank" rel="nofollow"><img src="http://images-jp.amazon.com/images/P/{{ item.asin }}.09.LZZZZZZZ.jpg" /></a>
+{% endfor %}

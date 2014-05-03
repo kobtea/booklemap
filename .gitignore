@@ -1,3 +1,6 @@
+# Secrets
+amazon_config.py
+
 # Django
 settings.py
 db.sqlite3
