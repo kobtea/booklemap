@@ -1,3 +1,8 @@
+{% if user.username %}
+    {{ user.username }}
+{% else %}
+    <a href="{% url 'socialauth_begin' 'twitter' %}">Twitter login</a>
+{% endif %}
 <form action="/search/" id="sidebar_search" class="search">
     <div>
         <p>
