@@ -1,9 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from .libs import amazon
 from .models import Status
-
-from django.http import HttpResponse
 
 
 def index(request):
@@ -45,4 +43,5 @@ class Search(View):
                 status=status
             )
         status_obj.save()
-        return HttpResponse('hoge')
+        # TODO: refactor me
+        return redirect(request.META['HTTP_REFERER'])
