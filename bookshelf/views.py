@@ -19,7 +19,7 @@ class Search(View):
             try:
                 status = Status.objects.get(
                     user=request.user.id,
-                    asin=item_dict[i]['asin'])
+                    asin=item_dict[i]['asin']).status
             except Status.DoesNotExist:
                 pass
             item_dict[i]['status'] = status
@@ -32,18 +32,17 @@ class Search(View):
                       )
 
     def post(self, request, *args, **kwargs):
-        # import pprint
-        # pp = pprint.PrettyPrinter(indent=4).pprint
         asin = request.POST['asin']
         status = request.POST['status']
         user = request.user.id
         try:
-            status = Status.objects.get(user=user, asin=asin)
+            status_obj = Status.objects.get(user=user, asin=asin)
+            status_obj.status = status
         except Status.DoesNotExist:
-            status = Status(
+            status_obj = Status(
                 user=user,
                 asin=asin,
                 status=status
             )
-        status.save()
+        status_obj.save()
         return HttpResponse('hoge')
