@@ -22,4 +22,10 @@ class API:
             l.append(self.to_dict(elem, i))
         return l
 
+    def find_by_asin(self, asin):
+        api = amazonproduct.API(locale='jp')
+        result = api.item_lookup(asin)
+        for i, elem in enumerate(result.Items.Item):
+            return self.to_dict(elem, i)
+
 api = API()

@@ -1,0 +1,19 @@
+<html>
+<head></head>
+<body>
+    {% if user.username %}
+        <p>
+            {{ user.username }}
+
+            <a href='/list/'>List</a>
+
+            <form action="/search/" id="sidebar_search" class="search">
+                <input id="id_sidebar_search_q" name="q" type="search" value="">
+                <input type="submit" class="submit" value="Search">
+            </form>
+        </p>
+    {% else %}
+        <a href="{% url 'socialauth_begin' 'twitter' %}">Twitter login</a>
+    {% endif %}
+    {% block content %}{% endblock %}
+</body>

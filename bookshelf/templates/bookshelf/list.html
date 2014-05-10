@@ -1,26 +1,26 @@
-{% if user.username %}
-    {{ user.username }}
-{% else %}
-    <a href="{% url 'socialauth_begin' 'twitter' %}">Twitter login</a>
-{% endif %}
-{% for item in item_dict %}
-    <h4>{{ item.title }}</h3>
+{% extends 'bookshelf/base.html' %}
+{% load keyvalue %}
+
+{% block content %}
+<hr />
+{% for item in item_list %}
+
+    {% if item.status == 'wish' %}
+        <p>これほしい</p>
+    {% elif item.status == 'have' %}
+        <p>これもってる</p>
+    {% endif %}
+
     <a href="http://www.amazon.co.jp/exec/obidos/ASIN/{{ item.asin }}/{{ meta.aso_tag }}/" target="_blank" rel="nofollow"><img src="http://images-jp.amazon.com/images/P/{{ item.asin }}.09.LZZZZZZZ.jpg" /></a>
 
-    {% if item.status != 'have' %}
-    <form action="{{ self }}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="asin" value="{{ item.asin }}">
-        <input type="hidden" name="status" value="have">
-        <input type="submit" value="もってる！">
-    </form>
+    {% if item.having|length != 0 %}
+    <p><b>すでにもっている/ほしがっている人がいるで！！！</b></p>
+    {% for h_user in item.having %}
+        <a href="https://twitter.com/intent/tweet?screen_name={{ h_user }}&text=┏(^o^)┓ドコドコドコドコｗｗｗｗｗｗｗ http://www.amazon.co.jp/exec/obidos/ASIN/{{ item.asin }}/{{ meta.aso_tag }}/" class="twitter-mention-button" data-lang="ja" data-related="{{ user.username }}">Tweet to @{{ h_user }}</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+        {% endfor %}
     {% endif %}
-    {% if item.status != 'wish' %}
-    <form action="{{ self }}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="asin" value="{{ item.asin }}">
-        <input type="hidden" name="status" value="wish">
-        <input type="submit" value="ほしい！">
-    </form>
-    {% endif %}
+    <hr />
 {% endfor %}
+{% endblock %}
